@@ -1,0 +1,245 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+table, td, th {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th {
+    height: 50px;
+}
+@media screen and (max-width: 699px) and (min-width: 520px), (min-width: 1151px) {
+    #fab
+    {
+    width:150px;
+    height:150px;
+    border-radius:150px;
+    background-color:#41a6df;
+    z-index:999;
+    position:fixed;
+    bottom:90px;
+    right:15px;
+    }
+    #carticon
+    {
+    font-size:100px; 
+    margin:25 0 0 25;
+    z-index:inherit;
+    }
+}
+
+@media screen and (max-width: 1000px) and (min-width: 700px) {
+    #fab
+    {
+    width:150px;
+    height:150px;
+    border-radius:150px;
+    background-color:#41a6df;
+    z-index:999;
+    position:fixed;
+    bottom:90px;
+    right:15px;
+    }
+    #carticon
+    {
+    font-size:100px; 
+    margin:25 0 0 25;
+    z-index:inherit;
+    }
+}
+
+@media screen and (min-width: 1001px) {
+    #fab
+    {
+    width:50px;
+    height:50px;
+    border-radius:26px;
+    background-color:#41a6df;
+    z-index:999;
+    position:fixed;
+    bottom:90px;
+    right:15px;
+    }
+    #carticon
+    {
+    font-size:35px; 
+    margin:7 0 0 7;
+    z-index:inherit;
+    }
+</style>
+</head>
+<body>
+<script>
+function shortlist(a)
+{
+   i=0;
+   do
+   {
+    if(sessionStorage.getItem(i) != a)
+    {
+    sessionStorage.setItem(i,a);
+    }
+    i++;
+   }while(i<sessionStorage.length)
+}
+
+function fabfunction()
+{
+if (typeof(Storage) !== "undefined") {
+
+    document.getElementById("shortlist").innerHTML="";
+
+var trow = document.createElement("tr");//row for heading
+
+//heading1
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Class Name";
+document.getElementById("shortlist").appendChild(trow);
+
+//heading2
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Class Timing";
+document.getElementById("shortlist").appendChild(trow);
+
+//heading3
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Price";
+document.getElementById("shortlist").appendChild(trow);
+
+
+//heading4
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Discount";
+document.getElementById("shortlist").appendChild(trow);
+
+
+//heading5
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Call back";
+document.getElementById("shortlist").appendChild(trow);
+
+
+//heading6
+var thead = document.createElement("th");
+trow.appendChild(thead);
+thead.innerHTML = "Remove";
+document.getElementById("shortlist").appendChild(trow);
+
+    for(trc=0;trc<sessionStorage.length;trc++)
+    {
+var rowdata = sessionStorage.getItem(trc).split(",");
+var trow = document.createElement("tr");
+//data 1
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    tdata.innerHTML = rowdata[0];
+    document.getElementById("shortlist").appendChild(trow);
+//data 2
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    tdata.innerHTML = rowdata[1];
+    document.getElementById("shortlist").appendChild(trow);
+//data 3
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    tdata.innerHTML = rowdata[2];
+    document.getElementById("shortlist").appendChild(trow);
+//data 4
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    var btnbuy = document.createElement("button");
+    btnbuy.className="btn btn-primary";
+    tdata.appendChild(btnbuy);
+    btnbuy.innerHTML = rowdata[3];
+    document.getElementById("shortlist").appendChild(trow);
+//data 5
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    var btnbuy = document.createElement("button");
+    btnbuy.className="btn btn-primary";
+    tdata.appendChild(btnbuy);
+    btnbuy.innerHTML = "Call Back";
+    document.getElementById("shortlist").appendChild(trow);
+//data 6
+    var tdata = document.createElement("td");
+    trow.appendChild(tdata);
+    var btnbuy = document.createElement("button");
+    btnbuy.className="btn btn-primary";
+    btnbuy.setAttribute("id",trc);
+    btnbuy.onclick = function(){sessionStorage.removeItem(this.id);var btnparent=this.parentElement;btnparent.parentElement.remove();};
+    tdata.appendChild(btnbuy);
+    btnbuy.innerHTML = "Remove";
+    document.getElementById("shortlist").appendChild(trow);
+    }//close of trc for
+} else {
+    // Sorry! No Web Storage support..
+}
+}
+</script>
+<table>
+  <tr>
+    <th>Class Timing</th>
+    <th>Price</th>
+    <th>Purchase</th>
+    <th>Call back</th>
+    <th>List</th>
+  </tr>
+  <tr>
+    <td>7 AM-1 PM (3 Days a Week)</td>
+    <td>Rs.12000/-</td>
+    <td><button type="button" class="btn btn-primary">1000/- rs off</button></td>
+   <td><button type="button" class="btn btn-primary">call back</button></td>
+    <td><button type="button" class="btn btn-primary" onclick="shortlist('raoiit,7 AM-1 PM (3 Days a Week),Rs.12000/-,1000/-')">checklist</button></td>
+  </tr>
+</table>
+<div id="fab" onclick="fabfunction()" data-toggle="modal" data-target="#myModal">
+<span id="carticon" class="glyphicon glyphicon-education btn-bg"></span>
+ 
+</div> 
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Short listed Classes</h4>
+      </div>
+      <div class="modal-body">
+       <table id="shortlist">
+  <tr>
+    <th>Class Timing</th>
+    <th>Price</th>
+    <th>purchase</th>
+    <th>Call back</th>
+    <th>remove</th>
+  </tr>
+  <tr>
+    <td>7 AM-1 PM (3 Days a Week)</td>
+    <td>Rs.12000/-</td>
+    <td><button type="button" class="btn btn-primary">1000/- rs off</button></td>
+    <td><button type="button" class="btn btn-primary">Request a Callback</button></td>
+  </tr>
+</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

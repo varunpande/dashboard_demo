@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<noscript>
+<meta http-equiv="refresh" content="0; url=https://www.classesdunia.com/admin/pages/nscript.html" />
+</noscript>
+<script>
+function unamechk()
+{
+var uname;
+var param_array = window.location.href.split('?');
+if(param_array[1]===undefined)
+{
+window.location = "https://www.classesdunia.com/admin/index.html";
+}
+}
+window.onload = unamechk();
+
+var tries=0;
+
+function redirect()
+{
+window.location = "https://www.classesdunia.com/admin/index.html";
+}
+
+function submitajax()
+{
+
+//get token value
+var tokenval = document.getElementById("veritoken").value;
+
+if(tokenval != "")
+{
+//get the username
+var uname;
+var param_array = window.location.href.split('?')[1].split('&');
+x =param_array[0].split('=');
+uname = x[1];
+
+
+var xmlhttp = new XMLHttpRequest();
+var data="uname="+uname+"&token="+tokenval;        
+xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) 
+            {
+               chkparam(this.responseText);
+            } 
+        };
+        xmlhttp.open("POST","../php/verify.php", true);
+        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xmlhttp.send(data);
+}//end if
+else
+{
+document.getElementById("veritoken").style.border ='2px solid #a94442';
+}
+}
+ function chkparam(a)
+ {
+        if(tries<=3 && a!="")
+        {
+        window.location = a;
+        }
+        else if(tries<=3)
+        {
+        ++tries;
+        if(tries<=3 && (tries+1)!=4)
+        {
+        document.getElementById("tokenh").innerHTML="Re-enter your token: "+(3-tries)+" left.";
+        document.getElementById("myModal").style.display = 'block';
+        document.getElementById("veritoken").style.border ='2px solid #a94442';
+        }
+        else
+        {
+        window.location = "https://www.classesdunia.com/admin/index.html";
+        }
+ } 
+       
+ }
+</script>
+<body>
+<div class="container">
+  <!-- Modal -->
+  <div id="myModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" onclick="redirect()">&times;</button>
+          <h4 class="modal-title">Token Verification</h4>
+        </div>
+        <div class="modal-body">
+          <p id="tokenh">The token is sent via secured server please refresh your inbox after 30 seconds if not received<br>Enter your token:</p>
+          <form><input class="form-control" class="form-control" placeholder="Token code" id="veritoken" type="password" required></form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="submitajax()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
